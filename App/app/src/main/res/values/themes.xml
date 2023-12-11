@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Notes" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/background_grey</item>
+    </style>
+
+    <style name="Theme.Notes" parent="Base.Theme.Notes" />
+</resources>
