@@ -6,9 +6,11 @@
     <string name="main_add_action">Adicionar Nota</string>
 
     <!--Note Activity-->
-    <string name="note_save_action">Adicionar Nota</string>
+    <string name="note_save_action">Guardar Nota</string>
+    <string name="note_cancel_action">Descartar alterações</string>
+    <string name="note_delete_action">Apagar</string>
     <string name="note_date_hint">Criado a: 9 de outubro de 2023, às 23:14</string>
     <string name="note_title_hint">Adicione um título</string>
     <string name="note_description">Descrição:</string>
-    <string name="note_description_hint">Escreva aqui...</string>
+    <string name="note_description_hint">Escreve aqui...</string>
 </resources>
