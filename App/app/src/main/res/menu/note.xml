@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/action_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/ic_delete"
@@ -10,6 +11,7 @@
         app:iconTint="@color/icon_color_red"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_undo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/ic_undo"
@@ -20,8 +22,8 @@
         android:id="@+id/action_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_check"
         android:title="@string/note_save_action"
-        app:iconTint="@color/icon_color"
+        app:iconTint="@color/icon_color_blue"
         app:showAsAction="ifRoom" />
 </menu>

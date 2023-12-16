@@ -2,12 +2,14 @@ package pt.iade.joaquimclaudio.atividade;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -18,17 +20,20 @@ import pt.iade.joaquimclaudio.atividade.models.NoteItem;
 
 public class NoteActivity extends AppCompatActivity {
 
-    private TextView date;
-    private EditText title;
-    private EditText content;
+    protected TextView date;
+    protected EditText title;
+    protected EditText content;
+    protected Switch importantSwitch;
 
-    private NoteItem item;
+    protected int itemPosition;
+    protected NoteItem item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
         Intent intent = getIntent();
+        itemPosition = intent.getIntExtra("item_position", -1);
         item = (NoteItem) intent.getSerializableExtra("item");
 
         setupComponents();
@@ -43,6 +48,28 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_save){
+            commitView();
+            this.item.save();
+
+            //  Setup the result to be return to the calling activity
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("delete", false);
+            returnIntent.putExtra("item_position", itemPosition);
+            returnIntent.putExtra("item", this.item);
+            setResult(AppCompatActivity.RESULT_OK, returnIntent);
+
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_undo){
+
+        } else if (item.getItemId() == R.id.action_delete){
+            //  Setup the result to be return to the calling activity
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("delete", true);
+            returnIntent.putExtra("item_position", itemPosition);
+            returnIntent.putExtra("item", this.item);
+            setResult(AppCompatActivity.RESULT_OK, returnIntent);
+
             finish();
             return true;
         }
@@ -58,6 +85,8 @@ public class NoteActivity extends AppCompatActivity {
         date = findViewById(R.id.note_date_textView);
         title = findViewById(R.id.note_title_editText);
         content = findViewById(R.id.note_content_multilineEditText);
+        importantSwitch = findViewById(R.id.note_important);
+
         //  Populating components
         populateView();
     }
@@ -70,5 +99,13 @@ public class NoteActivity extends AppCompatActivity {
         date.setText("Criado a: " + String.format("%02d/%02d/%04d", day, month, year) + ", às ");
         title.setText(item.getTitle());
         content.setText(item.getContent());
+        importantSwitch.setChecked(item.isImportant());
+    }
+
+    protected void commitView(){
+        item.setTitle(title.getText().toString());
+        item.setContent(content.getText().toString());
+        item.setCreationDate(new GregorianCalendar());
+        item.setImportant(importantSwitch.isChecked());
     }
 }
