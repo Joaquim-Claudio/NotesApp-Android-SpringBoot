@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:icon="@drawable/ic_undo"
         android:title="@string/note_cancel_action"
-        app:iconTint="@color/icon_color_blue"
+        app:iconTint="@color/icon_color"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_check"
+        android:icon="@drawable/ic_add"
         android:title="@string/note_save_action"
-        app:iconTint="@color/icon_color_green"
+        app:iconTint="@color/icon_color"
         app:showAsAction="ifRoom" />
 </menu>

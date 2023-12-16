@@ -12,10 +12,12 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import pt.iade.joaquimclaudio.atividade.adapters.NoteItemRowAdapter;
 import pt.iade.joaquimclaudio.atividade.models.NoteItem;
 
 public class MainActivity extends AppCompatActivity {
     protected RecyclerView itemsListView;
+    protected NoteItemRowAdapter itemRowAdapter;
     protected ArrayList<NoteItem> itemsList;
 
     @Override
@@ -52,8 +54,12 @@ public class MainActivity extends AppCompatActivity {
         //  Setup action bar
         setSupportActionBar(findViewById(R.id.toolbar));
 
+        //  Setup row adapter
+        itemRowAdapter = new NoteItemRowAdapter(this, itemsList);
+
         //  Setup the notes RecyclerView
         itemsListView = (RecyclerView) findViewById(R.id.notes_list);
         itemsListView.setLayoutManager(new LinearLayoutManager(this));
+        itemsListView.setAdapter(itemRowAdapter);
     }
 }
