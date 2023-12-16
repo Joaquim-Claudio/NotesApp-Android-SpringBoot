@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,6 +63,9 @@ public class NoteItemRowAdapter extends RecyclerView.Adapter<NoteItemRowAdapter.
 
         holder.titleTextView.setText(item.getTitle());
         holder.contentTextView.setText(item.getContent());
+        if(item.isImportant()){
+            holder.markImageView.setImageResource(R.drawable.ic_important_item);
+        }
     }
 
     /**
@@ -77,6 +81,7 @@ public class NoteItemRowAdapter extends RecyclerView.Adapter<NoteItemRowAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView titleTextView;
         public TextView contentTextView;
+        public ImageView markImageView;
 
 
         /**
@@ -90,6 +95,7 @@ public class NoteItemRowAdapter extends RecyclerView.Adapter<NoteItemRowAdapter.
             // Get the components in the view.
             titleTextView = itemView.findViewById(R.id.note_title);
             contentTextView = itemView.findViewById(R.id.note_content);
+            markImageView = itemView.findViewById(R.id.note_mark);
 
             // Set what happens when the view gets clicked.
             itemView.setOnClickListener(this);
