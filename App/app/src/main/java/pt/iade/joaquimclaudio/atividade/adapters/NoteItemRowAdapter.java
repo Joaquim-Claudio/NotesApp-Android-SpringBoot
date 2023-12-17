@@ -63,7 +63,9 @@ public class NoteItemRowAdapter extends RecyclerView.Adapter<NoteItemRowAdapter.
 
         holder.titleTextView.setText(item.getTitle());
         holder.contentTextView.setText(item.getContent());
-        if(item.isImportant()){
+        if(!item.isImportant()){
+            holder.markImageView.setImageResource(R.drawable.ic_radio_item);
+        }else{
             holder.markImageView.setImageResource(R.drawable.ic_important_item);
         }
     }
