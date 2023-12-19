@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -92,10 +93,9 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     protected void populateView(){
-        int day = item.getCreationDate().get(Calendar.DAY_OF_MONTH);
-        int month = item.getCreationDate().get(Calendar.MONTH);
-        int year = item.getCreationDate().get(Calendar.YEAR);
-        Date time = item.getCreationDate().getTime();
+        int day = item.getCreationDate().getDayOfMonth();
+        int month = item.getCreationDate().getMonthValue();
+        int year = item.getCreationDate().getYear();
         date.setText("Criado a: " + String.format("%02d/%02d/%04d", day, month, year) + ", às ");
         title.setText(item.getTitle());
         content.setText(item.getContent());
@@ -105,7 +105,7 @@ public class NoteActivity extends AppCompatActivity {
     protected void commitView(){
         item.setTitle(title.getText().toString());
         item.setContent(content.getText().toString());
-        item.setCreationDate(new GregorianCalendar());
+        item.setCreationDate(LocalDate.now());
         item.setImportant(importantSwitch.isChecked());
     }
 }

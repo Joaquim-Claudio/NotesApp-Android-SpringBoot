@@ -34,6 +34,12 @@ public class NoteController {
         return NoteRepository.addNote(note);
     }
 
+    @PostMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Note updateNote(@RequestBody Note note){
+        logger.info("Updating an existing note.");
+        return NoteRepository.updateNote(note);
+    }
+
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response deleteNote(@PathVariable("id") int id){
         logger.info("Deleting note with id="+id);

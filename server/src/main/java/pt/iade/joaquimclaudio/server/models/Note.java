@@ -2,22 +2,22 @@ package pt.iade.joaquimclaudio.server.models;
 
 import org.aspectj.weaver.ast.Not;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Note {
     private static int next_id = 1;
     private int id;
     private String title;
     private String content;
-    private Calendar creationDate;
-    private Calendar modifiedDate;
+    private LocalDate creationDate;
+    private LocalDate modifiedDate;
     private boolean important;
 
     public Note() {
 
     }
 
-    public Note(String title, String content, Calendar creationDate, Calendar modifiedDate, boolean important) {
+    public Note(String title, String content, LocalDate creationDate, LocalDate modifiedDate, boolean important) {
         this.title = title;
         this.content = content;
         this.creationDate = creationDate;
@@ -49,19 +49,19 @@ public class Note {
         this.content = content;
     }
 
-    public Calendar getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Calendar creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Calendar getModifiedDate() {
+    public LocalDate getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(Calendar modifiedDate) {
+    public void setModifiedDate(LocalDate modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
