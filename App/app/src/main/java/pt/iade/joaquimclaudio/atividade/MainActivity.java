@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //  Get the items from the WebServer
-        itemsList = NoteItem.List();
 
         setupComponents();
     }
@@ -63,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 boolean delete = data.getBooleanExtra("delete", false);
                 int position = data.getIntExtra("item_position", -1);
                 NoteItem updatedItem = (NoteItem) data.getSerializableExtra("item");
-
                 if (delete){
                     if (position != -1){
                         //  Delete an item in the list
@@ -90,24 +87,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupComponents() {
-        //  Setup action bar
+        //  Set up action bar
         setSupportActionBar(findViewById(R.id.toolbar));
 
-        //  Setup row adapter
-        itemRowAdapter = new NoteItemRowAdapter(this, itemsList);
-        itemRowAdapter.setOnClickListener(new NoteItemRowAdapter.ItemClickListener() {
+        Log.e("setupComponents", "Entrou no setupComponents");
+
+        NoteItem.List(new NoteItem.ListResponse() {
             @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-                intent.putExtra("item_position", position);
-                intent.putExtra("item", itemsList.get(position));
-                startActivityForResult(intent, NOTE_ACTIVITY_RETURN_ID);
+            public void response(ArrayList<NoteItem> items) {
+                itemsList = items;
+                //  Set up row adapter
+                itemRowAdapter = new NoteItemRowAdapter(MainActivity.this, itemsList);
+                itemRowAdapter.setOnClickListener(new NoteItemRowAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(MainActivity.this, NoteActivity.class);
+                        intent.putExtra("item_position", position);
+                        intent.putExtra("item", itemsList.get(position));
+
+                        startActivityForResult(intent, NOTE_ACTIVITY_RETURN_ID);
+                    }
+                });
+
+                //  Set up the notes RecyclerView
+                itemsListView = (RecyclerView) findViewById(R.id.notes_list);
+                itemsListView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                Log.e("setupComponents", "Chegou ao setAdapter");
+                itemsListView.setAdapter(itemRowAdapter);
             }
         });
 
-        //  Setup the notes RecyclerView
-        itemsListView = (RecyclerView) findViewById(R.id.notes_list);
-        itemsListView.setLayoutManager(new LinearLayoutManager(this));
-        itemsListView.setAdapter(itemRowAdapter);
+
+
     }
 }

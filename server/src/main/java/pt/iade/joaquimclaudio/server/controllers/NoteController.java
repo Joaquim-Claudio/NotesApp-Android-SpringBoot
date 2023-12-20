@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pt.iade.joaquimclaudio.server.models.Note;
 import pt.iade.joaquimclaudio.server.models.repositories.NoteRepository;
+import pt.iade.joaquimclaudio.server.models.results.DeleteResponse;
 import pt.iade.joaquimclaudio.server.models.results.Response;
 
 import java.util.ArrayList;
@@ -44,8 +45,8 @@ public class NoteController {
     public Response deleteNote(@PathVariable("id") int id){
         logger.info("Deleting note with id="+id);
         if (NoteRepository.removeNote(id)){
-            return new Response(id+" successfully deleted.", null);
+            return new DeleteResponse(id+" successfully deleted.", null, true);
 
-        }else return new Response(id+" was not found.", null);
+        }else return new DeleteResponse(id+" was not found.", null, false);
     }
 }

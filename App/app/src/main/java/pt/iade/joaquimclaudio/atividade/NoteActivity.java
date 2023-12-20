@@ -2,7 +2,7 @@ package pt.iade.joaquimclaudio.atividade;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,15 +12,14 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import pt.iade.joaquimclaudio.atividade.models.NoteItem;
+import pt.iade.joaquimclaudio.atividade.models.results.DeleteResponse;
 
 public class NoteActivity extends AppCompatActivity {
-
     protected TextView date;
     protected EditText title;
     protected EditText content;
@@ -50,28 +49,40 @@ public class NoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_save){
             commitView();
-            this.item.save();
+            this.item.save(new NoteItem.SaveResponse() {
+                @Override
+                public void response() {
+                    //  Setup the result to be return to the calling activity
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("delete", false);
+                    returnIntent.putExtra("item_position", itemPosition);
+                    returnIntent.putExtra("item", NoteActivity.this.item);
+                    setResult(AppCompatActivity.RESULT_OK, returnIntent);
 
-            //  Setup the result to be return to the calling activity
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("delete", false);
-            returnIntent.putExtra("item_position", itemPosition);
-            returnIntent.putExtra("item", this.item);
-            setResult(AppCompatActivity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            });
 
-            finish();
             return true;
+
         } else if (item.getItemId() == R.id.action_undo){
+            //  TODO: implement the UNDO action
 
         } else if (item.getItemId() == R.id.action_delete){
-            //  Setup the result to be return to the calling activity
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("delete", true);
-            returnIntent.putExtra("item_position", itemPosition);
-            returnIntent.putExtra("item", this.item);
-            setResult(AppCompatActivity.RESULT_OK, returnIntent);
 
-            finish();
+            this.item.delete(new NoteItem.DeleteResult() {
+                @Override
+                public void response(DeleteResponse result) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("delete", true);
+                    returnIntent.putExtra("item_position", itemPosition);
+                    returnIntent.putExtra("item", NoteActivity.this.item);
+                    setResult(AppCompatActivity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            });
+
+
             return true;
         }
 

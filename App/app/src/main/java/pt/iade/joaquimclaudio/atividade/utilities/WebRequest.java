@@ -162,6 +162,41 @@ public class WebRequest {
         return performPostRequest(null, bodyParams);
     }
 
+
+    /**
+     * Performs a simple DELETE request.
+     *
+     * @return Raw response from the web server.
+     */
+    public String performDeleteRequest() throws IOException, URISyntaxException {
+        return performDeleteRequest(null);
+    }
+
+    /**
+     * Performs a DELETE request and gets the response from the server as a String.
+     *
+     * @param params URL parameters.
+     *
+     * @return Raw response from the web server.
+     */
+    public String performDeleteRequest(HashMap<String, String> params) throws IOException, URISyntaxException {
+        Log.i("WebRequest", "Sending DELETE to " + url);
+        URI uri = buildUri(params);
+        HttpURLConnection urlConnection = (HttpURLConnection) uri.toURL().openConnection();
+        urlConnection.setRequestMethod("DELETE");
+
+        String result = null;
+        try {
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            result = readStreamToString(in);
+            Log.i("WebRequest-Response", result);
+        } finally {
+            urlConnection.disconnect();
+        }
+
+        return result;
+    }
+
     protected String readStreamToString(InputStream in) throws IOException {
         BufferedInputStream bis = new BufferedInputStream(in);
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
